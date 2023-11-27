@@ -133,6 +133,8 @@ critic.register_reply(
 ) 
 pn.extension(design="material")
 
+initiate_chat_task_created = False
+
 async def delayed_initiate_chat(agent, recipient, message):
 
     global initiate_chat_task_created

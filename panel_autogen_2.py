@@ -37,7 +37,7 @@ class MyConversableAgent(autogen.ConversableAgent):
 
 user_proxy = MyConversableAgent(
    name="Admin",
-   is_termination_msg=lambda x: x.get("content", "").rstrip().endswith("TERMINATE"),
+   is_termination_msg=lambda x: x.get("content", "").rstrip().endswith("exit"),
    system_message="""A human admin. Interact with the planner to discuss the plan. Plan execution needs to be approved by this admin. 
    
    """,

@@ -15,7 +15,7 @@ gpt4_config = {"config_list": config_list, "temperature":0, "seed": 53}
 
 user_proxy = autogen.UserProxyAgent(
    name="Admin",
-   is_termination_msg=lambda x: x.get("content", "").rstrip().endswith("TERMINATE"),
+   is_termination_msg=lambda x: x.get("content", "").rstrip().endswith("exit"),
    system_message="""A human admin. Interact with the planner to discuss the plan. Plan execution needs to be approved by this admin. 
    Only say APPROVED in most cases, and say EXIT when nothing to be done further. Do not say others.""",
    code_execution_config=False,
@@ -62,8 +62,14 @@ avatar = {user_proxy.name:"👨‍💼", engineer.name:"👩‍💻", scientist.
 
 def print_messages(recipient, messages, sender, config):
 
-    chat_interface.send(messages[-1]['content'], user=messages[-1]['name'], avatar=avatar[messages[-1]['name']], respond=False)
+    #chat_interface.send(messages[-1]['content'], user=messages[-1]['name'], avatar=avatar[messages[-1]['name']], respond=False)
     print(f"Messages from: {sender.name} sent to: {recipient.name} | num messages: {len(messages)} | message: {messages[-1]}")
+    
+    if all(key in messages[-1] for key in ['name']):
+        chat_interface.send(messages[-1]['content'], user=messages[-1]['name'], avatar=avatar[messages[-1]['name']], respond=False)
+    else:
+        chat_interface.send(messages[-1]['content'], user='SecretGuy', avatar='🥷', respond=False)
+
     return False, None  # required to ensure the agent communication flow continues
 
 user_proxy.register_reply(

@@ -153,6 +153,7 @@ def file_callback(*events):
     
     response = client.files.create(file=open(file_path, 'rb'), purpose='assistants')
 
+    all_files = client.files.list()
     found = False
     while not found:
         for file in all_files.data:

@@ -1,3 +1,5 @@
+# To install required packages:
+# pip install pyautogen==0.2.9 panel==1.3.8
 import autogen
 
 import panel as pn
@@ -6,7 +8,7 @@ import os
 import time
 import asyncio
 
-os.environ["OPENAI_API_KEY"] = ""
+os.environ["OPENAI_API_KEY"] = "sk-"
 
 config_list = [
     {
@@ -94,13 +96,14 @@ avatar = {user_proxy.name:"👨‍💼", engineer.name:"👩‍💻", scientist.
 
 def print_messages(recipient, messages, sender, config):
 
-    #chat_interface.send(messages[-1]['content'], user=messages[-1]['name'], avatar=avatar[messages[-1]['name']], respond=False)
     print(f"Messages from: {sender.name} sent to: {recipient.name} | num messages: {len(messages)} | message: {messages[-1]}")
-    
+
+    content = messages[-1]['content']
+
     if all(key in messages[-1] for key in ['name']):
-        chat_interface.send(messages[-1]['content'], user=messages[-1]['name'], avatar=avatar[messages[-1]['name']], respond=False)
+        chat_interface.send(content, user=messages[-1]['name'], avatar=avatar[messages[-1]['name']], respond=False)
     else:
-        chat_interface.send(messages[-1]['content'], user='SecretGuy', avatar='🥷', respond=False)
+        chat_interface.send(content, user=recipient.name, avatar=avatar[recipient.name], respond=False)
     
     return False, None  # required to ensure the agent communication flow continues
 
@@ -170,4 +173,3 @@ async def callback(contents: str, user: str, instance: pn.chat.ChatInterface):
 chat_interface = pn.chat.ChatInterface(callback=callback)
 chat_interface.send("Send a message!", user="System", respond=False)
 chat_interface.servable()
-

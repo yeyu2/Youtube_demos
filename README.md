@@ -7,3 +7,4 @@
 * rag_autogen_panel.py - https://youtu.be/98Ri4VVBP_8 - AutoGen + Panel Ep.3 - Web UI for Multi-agent with Document Retrieval
 * autogen_fireworks.py - https://youtu.be/HN96PTdiseo - Use Open Source LLMs in AutoGen powered by Fireworks AI, without GPU/CPU
 * autogen_descriptions/ - https://youtu.be/2YACB_N2bI8 - AutoGen - Use Description Field to Manage the Conversation Between Multiple Agents
+* CrewAI/ - https://youtu.be/tKYr0fgkSPo - CrewAI - A Smartly Designed Multi-agent Framework for LLM App Development

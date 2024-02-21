@@ -9,3 +9,4 @@
 * autogen_descriptions/ - https://youtu.be/2YACB_N2bI8 - AutoGen - Use Description Field to Manage the Conversation Between Multiple Agents
 * CrewAI/ - https://youtu.be/tKYr0fgkSPo - CrewAI - A Smartly Designed Multi-agent Framework for LLM App Development
 * OpenRouter/ - https://youtu.be/opR3LozV3NM - OpenRouter - Use The LLM Inference API with the Lowest Cost
+* Mixtral_of_aqlm_transformers.ipynb - https://youtu.be/Qx8PNk4OkUA - How to Run Mixtral-8x7B on Free-tier Colab by Using an Insane 2-bit Quantization

@@ -12,3 +12,4 @@
 * Mixtral_of_aqlm_transformers.ipynb - https://youtu.be/Qx8PNk4OkUA - How to Run Mixtral-8x7B on Free-tier Colab by Using an Insane 2-bit Quantization
 * autogen_openrouter_gemma.ipynb - https://youtu.be/L7ABsqsPN_A - Is Gemma Capable of Building Multi-agent Applications in AutoGen?
 * autogen_ollama_gemma.ipynb - https://youtu.be/bkBOuBxsxeM - AutoGen + Ollama + Gemma: How to Create LLM Agents Locally
+* AutoGen_Gemma_CustomModel/ - https://youtu.be/H0h78EBzz0o - AutoGen + Custom Model + Gemma (or Any Model), Here is the Ultimate Solution

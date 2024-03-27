@@ -13,3 +13,4 @@
 * autogen_openrouter_gemma.ipynb - https://youtu.be/L7ABsqsPN_A - Is Gemma Capable of Building Multi-agent Applications in AutoGen?
 * autogen_ollama_gemma.ipynb - https://youtu.be/bkBOuBxsxeM - AutoGen + Ollama + Gemma: How to Create LLM Agents Locally
 * AutoGen_Gemma_CustomModel/ - https://youtu.be/H0h78EBzz0o - AutoGen + Custom Model + Gemma (or Any Model), Here is the Ultimate Solution
+* Voice_assistant_groq/ - https://youtu.be/oTOc7CjeRgY - Best Groq Practice - Making a Voice Assistant with Human Reaction Speed

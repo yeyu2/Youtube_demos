@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Voice Chatbot</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        #chatContainer {
+            max-width: 600px;
+            margin: 30px auto;
+            border: 1px solid #dee2e6;
+            border-radius: .25rem;
+            display: flex;
+            flex-direction: column;
+            /*height: 500px; /* Adjust the height as necessary */
+        }
+        #startButtonContainer {
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        #echoText {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+        .chat-entry {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .user-text {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        .ai-text {
+            background-color: #e2e3e5;
+            color: #383d41;
+        }
+        .talk-btn {
+            width: 100%;
+            padding: .375rem .75rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="chatContainer" class="shadow p-3 mb-5 bg-white rounded">
+        <div id="startButtonContainer">
+            <button id="startButton" class="btn btn-primary talk-btn">🎙️ Start Listening</button>
+        </div>
+        <div id="echoText" class="mb-3"></div>
+    </div>
+    <script>
+        const startButton = document.getElementById('startButton');
+        const echoTextEl = document.getElementById('echoText');
+
+        let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+        recognition.continuous = true; 
+
+        let isListening = false;
+
+        document.addEventListener('DOMContentLoaded', startSession);
+
+        recognition.onstart = function() {
+            isListening = true;
+            startButton.textContent = "Stop Listening";
+            //startSpeech();
+        };
+
+        recognition.onend = function() {
+            isListening = false;
+            startButton.textContent = "🎙️ Start Listening";
+        };
+
+        recognition.onresult = function(event) {
+            const currentResultIndex = event.resultIndex;
+
+            for (let i = currentResultIndex; i < event.results.length; ++i) {
+                if (event.results[i].isFinal) {
+                    const transcript = event.results[i][0].transcript.trim();
+                    //echoTextEl.innerHTML += `<p>You said: ${transcript}</p>`;
+                    processSpeech(transcript);
+                }
+            }
+        };
+
+        recognition.onerror = function(event) {
+            console.error('Speech recognition error', event.error);
+        };
+
+        startButton.addEventListener('click', function() {
+            if (isListening) {
+                recognition.stop();
+            } else {
+                recognition.start();
+            }
+        }, false);
+
+
+        function startSession(text) {
+
+            fetch('http://localhost:5000/start-speech', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+
+            })
+        }
+
+        function processSpeech(text) {
+
+            const userEntry = document.createElement('div');
+            userEntry.className = 'chat-entry user-text';
+            userEntry.innerHTML = `<strong>You:</strong> ${text}`;
+            echoTextEl.prepend(userEntry);
+            
+            fetch('http://localhost:5000/process-speech', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text: text }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                const aiText = data.response;
+
+                // Create AI response entry and prepend to chat history
+                const aiEntry = document.createElement('div');
+                aiEntry.className = 'chat-entry ai-text';
+                aiEntry.innerHTML = `<strong>AI:</strong> ${aiText}`;
+                echoTextEl.prepend(aiEntry);
+                speak(aiText); // Speak out the AI response
+  
+            })
+            .catch(error => {
+                console.error('Error during AI processing:', error);
+            });
+        }
+
+        function speak(text) {
+            fetch('http://localhost:5000/synthesize-speech', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text: text }),
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                const audioUrl = URL.createObjectURL(blob);
+                const audio = new Audio(audioUrl);
+                audio.play();
+                audio.onended = function() {recognition.start();};
+            })
+            .catch(error => {
+                console.error('Error during TTS synthesis:', error);
+            });
+        }
+
+    </script>
+</body>
+</html>

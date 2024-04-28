@@ -15,3 +15,4 @@
 * AutoGen_Gemma_CustomModel/ - https://youtu.be/H0h78EBzz0o - AutoGen + Custom Model + Gemma (or Any Model), Here is the Ultimate Solution
 * Voice_assistant_groq/ - https://youtu.be/YeB3DOeEC3I - Best Groq Practice - Making a Voice Assistant with Human Reaction Speed
 * CrewAI_Streamlit.py - https://youtu.be/gWrqfnTGtl8 - How to Implement a Simple UI for CrewAI applications
+* crewai_panel.py - https://youtu.be/pODI1SWTVeo - How to Create an Interactive Web UI for CrewAI Applications By Panel

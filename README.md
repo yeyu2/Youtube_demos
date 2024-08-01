@@ -16,4 +16,5 @@
 * Voice_assistant_groq/ - https://youtu.be/YeB3DOeEC3I - Best Groq Practice - Making a Voice Assistant with Human Reaction Speed
 * CrewAI_Streamlit.py - https://youtu.be/gWrqfnTGtl8 - How to Implement a Simple UI for CrewAI applications
 * crewai_panel.py - https://youtu.be/pODI1SWTVeo - How to Create an Interactive Web UI for CrewAI Applications By Panel
-* AutoGen_API - https://youtu.be/4mO2TmDervU - How to Create APIs for AutoGen
+* AutoGen_API/ - https://youtu.be/4mO2TmDervU - How to Create APIs for AutoGen
+* autogen_panel_image.py - https://youtu.be/2zNiRGE5TUM - How to Build an Image Creator Agent for the AutoGen Application

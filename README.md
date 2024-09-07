@@ -20,3 +20,4 @@
 * autogen_panel_image.py - https://youtu.be/2zNiRGE5TUM - How to Build an Image Creator Agent for the AutoGen Application
 * mesop_autogen.py - https://youtu.be/Iv-XnbIMG2M - Create a Multi-Agent App with Mesop
 * mesop_crewai.py - https://youtu.be/IE4AyrvC4yw - Use Mesop to Develop UI for CrewAI App
+* llama_agents.py - https://youtu.be/4UvzuRS83yU - Exploring Llama-Agents with Code Walkthrough

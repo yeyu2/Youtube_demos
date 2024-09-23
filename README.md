@@ -21,3 +21,4 @@
 * mesop_autogen.py - https://youtu.be/Iv-XnbIMG2M - Create a Multi-Agent App with Mesop
 * mesop_crewai.py - https://youtu.be/IE4AyrvC4yw - Use Mesop to Develop UI for CrewAI App
 * llama_agents.py - https://youtu.be/4UvzuRS83yU - Exploring Llama-Agents with Code Walkthrough
+* Instructor/ - https://youtu.be/LwdO7qwpujo - How to Make AutoGen Agents Always Generate Structured Data by Using Instructor

@@ -23,3 +23,4 @@
 * llama_agents.py - https://youtu.be/4UvzuRS83yU - Exploring Llama-Agents with Code Walkthrough
 * Instructor/ - https://youtu.be/LwdO7qwpujo - How to Make AutoGen Agents Always Generate Structured Data by Using Instructor
 * Llama32/ - https://youtu.be/qFkMdOTD97w - How to Use Llama 3.2 to Create Vision Apps and Multimodal Agents in AutoGen
+* Llama32_FunctionCall/ -https://youtu.be/aTPky3YiZJ0 - How to Implement Function Calling for Llama 3.2 1B/3B Lightweight Models

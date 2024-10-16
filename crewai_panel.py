@@ -1,3 +1,7 @@
+##
+## pip install crewai==0.28.8 panel==1.4.0
+##
+
 from crewai import Crew, Process, Agent, Task
 from langchain_openai import ChatOpenAI
 

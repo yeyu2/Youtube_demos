@@ -26,3 +26,4 @@
 * Llama32_FunctionCall/ -https://youtu.be/aTPky3YiZJ0 - How to Implement Function Calling for Llama 3.2 1B/3B Lightweight Models
 * AgentKit/ - https://youtu.be/QJkCdYKz5IY - Introducing AgentKit: A Lightweight, Easy-to-Learn Multi-Agent Framework
 * swarm_panel.py - https://youtu.be/aQAtKzzrdlc - How to Build a Web UI for an OpenAI's Swarm Application
+* Swarm_adv/ - https://youtu.be/joFHANtZs1I - Advanced Swarm Tutorial: RAG Agent, Orchestration and Web UI

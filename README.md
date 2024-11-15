@@ -27,3 +27,4 @@
 * AgentKit/ - https://youtu.be/QJkCdYKz5IY - Introducing AgentKit: A Lightweight, Easy-to-Learn Multi-Agent Framework
 * swarm_panel.py - https://youtu.be/aQAtKzzrdlc - How to Build a Web UI for an OpenAI's Swarm Application
 * Swarm_adv/ - https://youtu.be/joFHANtZs1I - Advanced Swarm Tutorial: RAG Agent, Orchestration and Web UI
+* Llama32_TrainReason/ - https://youtu.be/pLCkeZudkUQ - How to Fine-tune the Llama 3.2 for Reasoning Capabilities at Lowest Cost

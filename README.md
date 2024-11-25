@@ -28,3 +28,4 @@
 * swarm_panel.py - https://youtu.be/aQAtKzzrdlc - How to Build a Web UI for an OpenAI's Swarm Application
 * Swarm_adv/ - https://youtu.be/joFHANtZs1I - Advanced Swarm Tutorial: RAG Agent, Orchestration and Web UI
 * Llama32_TrainReason/ - https://youtu.be/pLCkeZudkUQ - How to Fine-tune the Llama 3.2 for Reasoning Capabilities at Lowest Cost
+* CrewAI_Panel_Update/ - https://youtu.be/Rp4xO0XLfzU - (Updated) How to Create an Interactive Web UI for CrewAI Applications

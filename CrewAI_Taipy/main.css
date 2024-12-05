@@ -1,0 +1,35 @@
+.taipy-chat {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #1a1a1a;
+    box-sizing: border-box;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(246, 244, 244, 0.2);
+    padding: 10px;
+}
+
+/* Message arrow styling */
+.MuiPaper-root.taipy-chat-markdown::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    border: 5px solid transparent;
+    transform: translateY(-50%);
+}
+
+/* Message box styling - Base styles */
+.MuiPaper-root.taipy-chat-markdown {
+    color: white !important;
+    border-radius: 8px;
+}
+
+/* Sent message styling */
+.taipy-chat-sent .MuiPaper-root.taipy-chat-markdown {
+    background-color: #2b5278 !important;
+}
+
+/* Received message styling */
+.taipy-chat-received .MuiPaper-root.taipy-chat-markdown {
+    background-color: #ff472bb5 !important;
+}

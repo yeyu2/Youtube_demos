@@ -29,3 +29,4 @@
 * Swarm_adv/ - https://youtu.be/joFHANtZs1I - Advanced Swarm Tutorial: RAG Agent, Orchestration and Web UI
 * Llama32_TrainReason/ - https://youtu.be/pLCkeZudkUQ - How to Fine-tune the Llama 3.2 for Reasoning Capabilities at Lowest Cost
 * CrewAI_Panel_Update/ - https://youtu.be/Rp4xO0XLfzU - (Updated) How to Create an Interactive Web UI for CrewAI Applications
+* CrewAI_Taipy/ - https://youtu.be/afxNLkpP1MM - How to Create a Stunning Web UI for CrewAI with Taipy

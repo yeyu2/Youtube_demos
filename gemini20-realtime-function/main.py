@@ -120,8 +120,8 @@ async def gemini_session_handler(client_websocket: websockets.WebSocketServerPro
                                                           function_responses.append(
                                                              {
                                                                  "name": name,
-                                                                 "response": {"result": "The light is broken."},
-                                                                 #"response": {"result": result},
+                                                                 #"response": {"result": "The light is broken."},
+                                                                 "response": {"result": result},
                                                                  "id": call_id  
                                                              }
                                                           ) 

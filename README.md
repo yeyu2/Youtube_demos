@@ -1,4 +1,5 @@
 # Youtube_demos
+* gemini20-voicetext/ - https://youtu.be/nzP46fXz36c - Hot Update! Build a Realtime Screen Sharing Assistant with VOICE and TEXT by Gemini 2.0
 * gemini20-screen/ - https://youtu.be/GFBa2IdRGLI - How to Build a Real-time Screen Sharing Assistant with Gemini 2.0 Multimodal Live API
 * gemini20-realtime-function/ - https://youtu.be/c-B7N8i_trs - Build a Real-time Voice & Video Chat App with Function Calling by Gemini 2.0 Multimodal Live API
 * gemini20-realtime/ - https://youtu.be/y2ETLEZ-oi8 - Build a Realtime Chat App with Google Gemini 2.0 Multimodal Live API

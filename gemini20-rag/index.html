@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    
+
+    <style>
+        #videoElement {
+            width: 640px;
+            height: 480px;
+            border-radius: 20px;
+        }
+
+        #canvasElement {
+            display: none;
+            width: 640px;
+            height: 480px;
+        }
+
+        .demo-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .video-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .button-group {
+            margin-bottom: 20px;
+        }
+
+        #chatLog {
+            width: 400px;
+            height: 560px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 0;
+            background-color: #f5f5f5;
+        }
+
+        #chatLog p {
+            margin: 8px 0;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+        }
+
+        #chatLog p:nth-child(odd) {
+            background-color: #e8eaf6;
+        }
+
+        /* Add new styles for PDF section */
+        .pdf-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #pdfPreview {
+            width: 640px;
+            height: 480px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        .file-upload {
+            margin-bottom: 20px;
+        }
+        
+        #pdf-container {
+            margin-top: 20px;
+            width: 640px;
+            height: 480px;
+            max-width: 800px;
+            display:none;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+                <!-- Title -->
+                <span class="mdl-layout-title">Gemini Live Demo</span>
+            </div>
+        </header>
+        <main class="mdl-layout__content">
+            <div class="page-content">
+                <div class="demo-content">
+                    <div class="pdf-section">
+                        <!-- Voice Control Buttons -->
+                        <div class="button-group">
+                            <button id="startButton"
+                                class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored">
+                                <i class="material-icons">mic</i>
+                            </button>
+                            <button id="stopButton"
+                                class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab">
+                                <i class="material-icons">mic_off</i>
+                            </button>
+                        </div>
+
+                        <!-- PDF Upload -->
+                        <div class="file-upload">
+                            <input type="file" id="pdfInput" accept="application/pdf"
+                                class="mdl-button mdl-js-button">
+                        </div>
+
+                         <div id="pdf-container" >
+                             <embed id="pdfPreview" type="application/pdf" style="width:100%;height:100%"/>
+                        </div>
+                        
+                    </div>
+
+                    <!-- Text Output -->
+                    <div id="chatLog" class="mdl-shadow--2dp"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+   <script defer>
+        const URL = "ws://localhost:9084";
+        let currentFrameB64;
+        let webSocket = null;
+        let audioContext = null;
+        let mediaRecorder = null;
+        let processor = null;
+        let pcmData = [];
+        let interval = null;
+        let initialized = false;
+        let audioInputContext;
+        let workletNode;
+
+        // Add PDF handling
+        const pdfInput = document.getElementById('pdfInput');
+        const pdfPreview = document.getElementById('pdfPreview');
+        const pdfContainer = document.getElementById('pdf-container');
+
+        window.addEventListener("load", async () => {
+            pdfInput.addEventListener('change', async (event) => {
+                console.log("pdfInput change event detected!");
+                const file = event.target.files[0];
+
+                 if (file && file.type === 'application/pdf') {
+                      const reader = new FileReader();
+
+                      reader.onload = (e) => {
+                          pdfPreview.setAttribute('src', e.target.result);
+                          pdfContainer.style.display = 'block';
+                          console.log('pdf rendered');
+                         
+                           // Convert to base64 and send immediately
+                         const base64Reader = new FileReader();
+                           base64Reader.onload = function(e){
+                            try{
+                                    const base64PDF = e.target.result.split(',')[1];
+                                    sendPDFMessage(base64PDF, file.name);
+                                }
+                                catch (err){
+                                    console.error("error processing pdf file", err)
+                                }
+
+                            };
+                           base64Reader.onerror = (err) => {
+                                console.error("error reading pdf file", err);
+                            }
+                            base64Reader.readAsDataURL(file);
+                      };
+                      reader.readAsDataURL(file);
+
+
+                    } else {
+                        alert('Please select a valid PDF file.');
+                        pdfContainer.style.display = 'none';
+                        pdfInput.value = ""; // Clear the file input
+                        pdfPreview.removeAttribute('src');
+                        console.warn("no pdf file detected");
+                    }
+
+            });
+            await initializeAudioContext();
+            connect();
+        });
+
+
+        function connect() {
+            console.log("connecting: ", URL);
+
+            webSocket = new WebSocket(URL);
+
+            webSocket.onclose = (event) => {
+                console.log("websocket closed: ", event);
+                alert("Connection closed");
+            };
+
+            webSocket.onerror = (event) => {
+                console.log("websocket error: ", event);
+            };
+
+            webSocket.onopen = (event) => {
+                console.log("websocket open: ", event);
+                sendInitialSetupMessage();
+            };
+
+            webSocket.onmessage = receiveMessage;
+        }
+
+        function sendInitialSetupMessage() {
+
+            console.log("sending setup message");
+            setup_client_message = {
+                setup: {
+                    generation_config: { response_modalities: ["AUDIO"] },
+                },
+            };
+
+            webSocket.send(JSON.stringify(setup_client_message));
+        }
+
+        function sendPDFMessage(base64PDF, filename) {
+            try {
+                if (webSocket == null) {
+                    console.log("websocket not initialized");
+                    return;
+                }
+
+                const payload = {
+                    realtime_input: {
+                        media_chunks: [{
+                            mime_type: "application/pdf",
+                            data: base64PDF,
+                            filename: filename
+                        }]
+                    },
+                };
+
+                webSocket.send(JSON.stringify(payload));
+                console.log("PDF data sent immediately");
+            } catch (err) {
+                console.error("Error sending PDF message:", err);
+            }
+        }
+
+        function sendVoiceMessage(b64PCM) {
+            try {
+                if (webSocket == null) {
+                    console.log("websocket not initialized");
+                    return;
+                }
+
+                payload = {
+                    realtime_input: {
+                        media_chunks: [{
+                            mime_type: "audio/pcm",
+                            data: b64PCM,
+                        }]
+                    },
+                };
+
+                webSocket.send(JSON.stringify(payload));
+                console.log("sent payload with audio data");
+            }
+            catch (err) {
+                console.error("Error sending audio message:", err);
+            }
+
+        }
+
+        function receiveMessage(event) {
+            try {
+                const messageData = JSON.parse(event.data);
+                const response = new Response(messageData);
+
+                if (response.text) {
+                    displayMessage("GEMINI: " + response.text);
+                }
+                if (response.audioData) {
+                    injestAudioChuckToPlay(response.audioData);
+                }
+            }
+            catch (err) {
+                console.error("Error receiving message:", err);
+            }
+        }
+
+        async function initializeAudioContext() {
+            if (initialized) return;
+
+            audioInputContext = new (window.AudioContext ||
+                window.webkitAudioContext)({
+                sampleRate: 24000
+            });
+            await audioInputContext.audioWorklet.addModule("pcm-processor.js");
+            workletNode = new AudioWorkletNode(audioInputContext, "pcm-processor");
+            workletNode.connect(audioInputContext.destination);
+            initialized = true;
+        }
+
+        function base64ToArrayBuffer(base64) {
+            const binaryString = window.atob(base64);
+            const bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
+        function convertPCM16LEToFloat32(pcmData) {
+            const inputArray = new Int16Array(pcmData);
+            const float32Array = new Float32Array(inputArray.length);
+
+            for (let i = 0; i < inputArray.length; i++) {
+                float32Array[i] = inputArray[i] / 32768;
+            }
+
+            return float32Array;
+        }
+
+        async function injestAudioChuckToPlay(base64AudioChunk) {
+            try {
+                if (audioInputContext.state === "suspended") {
+                    await audioInputContext.resume();
+                }
+                const arrayBuffer = base64ToArrayBuffer(base64AudioChunk);
+                const float32Data = convertPCM16LEToFloat32(arrayBuffer);
+
+                workletNode.port.postMessage(float32Data);
+            }
+            catch (error) {
+                console.error("Error processing audio chunk:", error);
+            }
+        }
+
+        function recordChunk() {
+            const buffer = new ArrayBuffer(pcmData.length * 2);
+            const view = new DataView(buffer);
+            pcmData.forEach((value, index) => {
+                view.setInt16(index * 2, value, true);
+            });
+
+            const base64 = btoa(
+                String.fromCharCode.apply(null, new Uint8Array(buffer))
+            );
+
+            sendVoiceMessage(base64);
+            pcmData = [];
+        }
+
+        async function startAudioInput() {
+            audioContext = new AudioContext({
+                sampleRate: 16000,
+            });
+
+            const stream = await navigator.mediaDevices.getUserMedia({
+                audio: {
+                    channelCount: 1,
+                    sampleRate: 16000,
+                },
+            });
+
+            const source = audioContext.createMediaStreamSource(stream);
+            processor = audioContext.createScriptProcessor(4096, 1, 1);
+
+            processor.onaudioprocess = (e) => {
+                const inputData = e.inputBuffer.getChannelData(0);
+                const pcm16 = new Int16Array(inputData.length);
+                for (let i = 0; i < inputData.length; i++) {
+                    pcm16[i] = inputData[i] * 0x7fff;
+                }
+                pcmData.push(...pcm16);
+            };
+
+            source.connect(processor);
+            processor.connect(audioContext.destination);
+
+            interval = setInterval(recordChunk, 3000);
+        }
+
+        function stopAudioInput() {
+            if (processor) {
+                processor.disconnect();
+            }
+            if (audioContext) {
+                audioContext.close();
+            }
+
+            clearInterval(interval);
+        }
+
+        function displayMessage(message) {
+            console.log(message);
+            addParagraphToDiv("chatLog", message);
+        }
+
+        function addParagraphToDiv(divId, text) {
+            const newParagraph = document.createElement("p");
+            newParagraph.textContent = text;
+            const div = document.getElementById(divId);
+            div.appendChild(newParagraph);
+        }
+
+        startButton.addEventListener('click', startAudioInput);
+        stopButton.addEventListener('click', stopAudioInput);
+
+        class Response {
+            constructor(data) {
+                this.text = null;
+                this.audioData = null;
+                this.endOfTurn = null;
+
+                if (data.text) {
+                    this.text = data.text
+                }
+
+                if (data.audio) {
+                    this.audioData = data.audio;
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

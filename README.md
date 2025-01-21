@@ -1,4 +1,5 @@
 # Youtube_demos
+* gemini20-rag/ - https://youtu.be/LPFdKgeGDNQ - Talk to Your Documents: Create a Real-Time RAG Assistant with Gemini 2.0 Multimodal Live API
 * gemini20-canvas/ - https://youtu.be/tbnmxmyWxhU - How to Build a Real-Time Gemini 2.0 Learning Assistant with an Interactive Canvas
 * gemini20-voicetext/ - https://youtu.be/nzP46fXz36c - Hot Update! Build a Realtime Screen Sharing Assistant with VOICE and TEXT by Gemini 2.0
 * gemini20-screen/ - https://youtu.be/GFBa2IdRGLI - How to Build a Real-time Screen Sharing Assistant with Gemini 2.0 Multimodal Live API

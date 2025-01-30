@@ -141,9 +141,6 @@
                               class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored">
                            <i class="material-icons">mic</i>
                         </button>
-                        <button id="stopButton" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab">
-                           <i class="material-icons">mic_off</i>
-                        </button>
                        </div>
                       </div>
                          <!-- Drawing Canvas -->
@@ -162,7 +159,6 @@
         const imageLoader = document.getElementById('imageLoader');
          const clearButton = document.getElementById('clearButton');
         const startButton = document.getElementById('startButton');
-        const stopButton = document.getElementById('stopButton');
          const brushSizeInput = document.getElementById('brushSize');
          const brushColorInput = document.getElementById('brushColor');
 
@@ -455,7 +451,6 @@
         }
 
         startButton.addEventListener('click', startAudioInput);
-        stopButton.addEventListener('click', stopAudioInput);
 
 
         class Response {

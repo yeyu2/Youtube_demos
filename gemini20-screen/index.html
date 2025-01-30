@@ -49,10 +49,6 @@
                             class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored">
                             <i class="material-icons">mic</i>
                         </button>
-                        <button id="stopButton"
-                            class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab">
-                            <i class="material-icons">mic_off</i>
-                        </button>
                     </div>
 
                     <!-- Video Element -->
@@ -80,7 +76,6 @@
         });
 
         const startButton = document.getElementById('startButton');
-        const stopButton = document.getElementById('stopButton');
         let stream = null;
         let currentFrameB64;
         let webSocket = null;
@@ -337,7 +332,6 @@
         }
 
         startButton.addEventListener('click', startAudioInput);
-        stopButton.addEventListener('click', stopAudioInput);
 
 
         class Response {

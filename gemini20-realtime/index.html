@@ -180,6 +180,7 @@
 
             webSocket.send(JSON.stringify(payload));
             console.log("sent: ", payload);
+            stopAudioInput();
         }
 
         function receiveMessage(event) {

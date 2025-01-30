@@ -277,6 +277,7 @@
 
                 webSocket.send(JSON.stringify(payload));
                 console.log("sent payload with audio data");
+                stopAudioInput();
             }
             catch (err) {
                 console.error("Error sending audio message:", err);

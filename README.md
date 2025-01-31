@@ -1,4 +1,5 @@
 # Youtube_demos
+* gemini20_android/ - https://youtu.be/3hJSOM_K_hU - How to Build a Realtime Gemini 2.0 Mobile App for Voice Chat with Camera and Images
 * gemini20-rag/ - https://youtu.be/LPFdKgeGDNQ - Talk to Your Documents: Create a Real-Time RAG Assistant with Gemini 2.0 Multimodal Live API
 * gemini20-canvas/ - https://youtu.be/tbnmxmyWxhU - How to Build a Real-Time Gemini 2.0 Learning Assistant with an Interactive Canvas
 * gemini20-voicetext/ - https://youtu.be/nzP46fXz36c - Hot Update! Build a Realtime Screen Sharing Assistant with VOICE and TEXT by Gemini 2.0

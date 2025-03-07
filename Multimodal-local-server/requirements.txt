@@ -1,0 +1,10 @@
+websockets
+torch
+transformers
+numpy
+Pillow
+kokoro 
+soundfile
+accelerate
+bitsandbytes
+qwen-vl-utils[decord]==0.0.8

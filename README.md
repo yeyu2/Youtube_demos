@@ -1,4 +1,5 @@
 # Youtube_demos
+* Multimodal-local-server - https://youtu.be/1vIqjQEFmjE - Build a Fully Local Multimodal Realtime App with Open Source Models
 * gemini20-android-serverless/ - https://youtu.be/1hxET1e2oo4 - How to Build a Serverless Android App with Real-time Streaming by Gemini 2.0 Multimodal Live API
 * gemini20_android/ - https://youtu.be/3hJSOM_K_hU - How to Build a Realtime Gemini 2.0 Mobile App for Voice Chat with Camera and Images
 * gemini20-rag/ - https://youtu.be/LPFdKgeGDNQ - Talk to Your Documents: Create a Real-Time RAG Assistant with Gemini 2.0 Multimodal Live API

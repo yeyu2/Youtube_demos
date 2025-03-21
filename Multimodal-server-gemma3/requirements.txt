@@ -1,0 +1,8 @@
+websockets
+torch
+numpy
+Pillow
+kokoro 
+soundfile
+accelerate
+bitsandbytes

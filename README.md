@@ -1,4 +1,5 @@
 # Youtube_demos
+* Multimodal-server-gemma3 - https://youtu.be/h63p573nqOg - Clone the Gemini Multimodal Realtime App Locally with Gemma 3, Whisper, Kokoro
 * Multimodal-local-server - https://youtu.be/1vIqjQEFmjE - Build a Fully Local Multimodal Realtime App with Open Source Models
 * gemini20-android-serverless/ - https://youtu.be/1hxET1e2oo4 - How to Build a Serverless Android App with Real-time Streaming by Gemini 2.0 Multimodal Live API
 * gemini20_android/ - https://youtu.be/3hJSOM_K_hU - How to Build a Realtime Gemini 2.0 Mobile App for Voice Chat with Camera and Images

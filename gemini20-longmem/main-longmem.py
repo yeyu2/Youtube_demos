@@ -247,13 +247,8 @@ async def gemini_session_handler(websocket: WebSocketServerProtocol):
 
                                         # Send function response back to Gemini
                                         if function_responses:
-                                            function_call_response = {
-                                                'tool_response': {
-                                                    'function_responses': function_responses
-                                                }
-                                            }
-                                            print(f"Sending function response: {function_call_response}")
-                                            await session.send(input=function_call_response)
+                                            print(f"Sending function response: {function_responses}")
+                                            await session.send(input=function_responses)
                                     continue  # Skip the rest of the loop for this iteration
 
                                 # Only process model_turn if server_content is not None

@@ -1,4 +1,5 @@
 # Youtube_demos
+* Multimodal-local-phi4/ - https://youtu.be/-CJ-rsT-E9Q - Building a Realtime Multimodal App Locally Deployed with Phi-4 and Kokoro
 * gemini_api_update_042025/ - https://youtu.be/1eybCQYOJnY - Gemini Live API FINALLY Breaks Realtime Session Limits! - And Other Gemini's Important Updates
 * gemini20-longmem/ - https://youtu.be/MGHwe7j2TyI - Building a Gemini Realtime Learning Assistant with Long-Term Memory
 * Multimodal-server-gemma3 - https://youtu.be/h63p573nqOg - Clone the Gemini Multimodal Realtime App Locally with Gemma 3, Whisper, Kokoro

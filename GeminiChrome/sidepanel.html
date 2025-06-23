@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Gemini Live Assistant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="sidepanel.css">
+    <script src="gemini-live.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Chat Status Header -->
+        <div class="chat-status-header">
+            <div class="chat-status-container">
+                <div class="breathing-indicator" id="breathingIndicator">
+                    <div class="breathing-dot"></div>
+                </div>
+                <div class="status-content">
+                    <div class="status-text" id="statusText">Ready to chat</div>
+                    <div class="status-subtitle" id="statusSubtitle">Click to start live conversation with your browsing assistant</div>
+                </div>
+                <button id="chatActionBtn" class="chat-action-btn">
+                    <i class="fas fa-play" id="chatActionIcon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- API Key Setup (Hidden - using hardcoded key for testing) -->
+        <div id="apiKeySection" class="section" style="display: none;">
+            <h3><i class="fas fa-key"></i> Setup</h3>
+            <div class="input-group">
+                <input type="password" id="apiKeyInput" placeholder="Enter your Gemini API Key">
+                <button id="saveApiKeyBtn" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Save
+                </button>
+            </div>
+            <p class="help-text">
+                Get your API key from <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a>
+            </p>
+        </div>
+
+        <!-- Main Interface -->
+        <div id="mainInterface" class="section" style="display: none;">
+            <!-- Hidden original buttons (functionality moved to header) -->
+            <div style="display: none;">
+                <button id="startLiveChatBtn"></button>
+                <button id="stopLiveChatBtn"></button>
+            </div>
+
+            <!-- Image Preview -->
+            <div id="imagePreviewContainer" class="image-preview" style="display: none;">
+                <div class="image-header">
+                    <span>Current Screen</span>
+                    <button id="removeImageBtn" class="btn-icon">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <img id="imagePreview" alt="Screen capture">
+            </div>
+
+
+
+            <!-- Hidden audio visualizer (moved to breathing indicator) -->
+            <div style="display: none;">
+                <div id="audioLevelFill"></div>
+                <div id="audioLevelText"></div>
+                <canvas id="audioWaveform"></canvas>
+            </div>
+
+            <!-- Transcript Section -->
+            <div class="transcript-section">
+                <h3><i class="fas fa-closed-captioning"></i> Live Transcript</h3>
+                <div id="transcriptMessages" class="transcript-messages">
+                    <div class="transcript-info">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Real-time transcription of your voice and AI responses will appear here during live chat.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="sidepanel.js"></script>
+</body>
+</html> 

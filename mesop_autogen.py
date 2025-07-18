@@ -1,5 +1,5 @@
 # 
-# pip install --upgrade mesop==0.10.0 pyautogen==0.2.33
+# pip install --upgrade mesop==0.10.0 ag2==0.2.33
 #
 import mesop as me
 import mesop.labs as mel

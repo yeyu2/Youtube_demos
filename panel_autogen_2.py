@@ -1,5 +1,5 @@
 # To install required packages:
-# pip install pyautogen==0.2.9 panel==1.3.8
+# pip install ag2==0.2.9 panel==1.3.8
 import autogen
 
 import panel as pn

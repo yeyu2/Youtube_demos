@@ -50,7 +50,8 @@ A voice AI assistant with vision capabilities built on LiveKit Agents. This proj
 ### Running the Vision Agent
 
 ```bash
-python vision_agent.py
+python vision_agent.py download-files
+python vision_agent.py dev
 ```
 
 The vision agent will:
@@ -63,7 +64,7 @@ The vision agent will:
 ### Running the Basic Agent
 
 ```bash
-python agent.py
+python agent.py console
 ```
 
 ## Environment Variables
@@ -98,7 +99,3 @@ The vision agent additionally includes:
 3. Make your changes
 4. Test thoroughly
 5. Submit a pull request
-
-## License
-
-[Add your license here] 

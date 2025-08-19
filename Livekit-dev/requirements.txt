@@ -1,0 +1,10 @@
+# Core LiveKit dependencies
+livekit-agents[deepgram,openai,cartesia,silero,turn-detector]~=1.0
+livekit-plugins-noise-cancellation~=0.2
+
+# Environment and utilities
+python-dotenv>=1.0.0
+
+# Additional dependencies that may be needed
+asyncio-mqtt>=0.16.0
+aiohttp>=3.8.0 

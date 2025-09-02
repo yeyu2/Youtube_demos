@@ -1,0 +1,7 @@
+ag2==0.9.9
+autogen==0.9.9
+openai==1.101.0
+python-dotenv==1.1.1
+reportlab==4.4.3
+pillow==11.3.0
+pydantic==2.11.7 

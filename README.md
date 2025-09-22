@@ -1,4 +1,5 @@
 # Youtube_demos
+* gemini_live_illustrate_nanobanana/ - https://youtu.be/er0XAeoBmFg - Upgrade Your Gemini Realtime Assistant with Live Illustrations Using Nano Banana
 * Livekit-dev/ - https://youtu.be/_0PcGMxw_Hs - How Easy to Build a Real-Time Multimodal AI Assistant with LiveKit
 * GeminiChrome/ - https://youtu.be/fkx8F57gWnc - Building a Gemini Powered Chrome Extension with Live Voice Assistant
 * Multimodal-local-phi4/ - https://youtu.be/-CJ-rsT-E9Q - Building a Realtime Multimodal App Locally Deployed with Phi-4 and Kokoro

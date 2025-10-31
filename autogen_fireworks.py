@@ -1,5 +1,5 @@
 # To install required packages:
-# pip install pyautogen==0.2.2
+# pip install ag2==0.2.2
 
 import os
 

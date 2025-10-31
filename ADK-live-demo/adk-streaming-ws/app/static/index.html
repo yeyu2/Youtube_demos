@@ -1,0 +1,355 @@
+<!doctype html>
+<html>
+  <head>
+    <title>ADK Streaming with Transcript Display</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Chart.js for chart rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="/static/js/app.js?v=2" type="module"></script>
+    <!-- App icon (inline) -->
+    <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%232563eb"/><path d="M12 4a3 3 0 0 0-3 3v4a3 3 0 0 0 6 0V7a3 3 0 0 0-3-3zm-5 7a5 5 0 0 0 10 0h-1.5a3.5 3.5 0 0 1-7 0H7z" fill="white"/></svg>' />
+    <style>
+      :root {
+        --bg: #1a1d23;
+        --card: #24282f;
+        --text: #e4e6eb;
+        --muted: #9ca3af;
+        --border: #374151;
+        --accent: #3b82f6;
+        --accent-weak: #1e3a5f;
+        --success: #10b981;
+        --danger: #ef4444;
+        --primary: #3b82f6;
+        --dark-bg: #1a1d23;
+      }
+      body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 16px;
+        background: var(--bg);
+        color: var(--text);
+      }
+      
+      .topbar {
+        text-align: center;
+        margin: 0 0 24px 0;
+        padding: 32px 20px;
+        border-bottom: 2px solid var(--border);
+      }
+
+      .brand {
+        font-weight: 800;
+        font-size: 32px;
+        color: var(--text);
+        letter-spacing: -0.5px;
+        margin-bottom: 8px;
+      }
+
+      .brand-sub {
+        color: var(--muted);
+        font-weight: 500;
+        font-size: 16px;
+      }
+
+      .controls {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+        margin: 10px 0 20px 0;
+      }
+
+      .controls button {
+        padding: 10px 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      }
+
+      #startAudioButton {
+        background-color: #2563eb;
+        color: #fff;
+      }
+
+      #startAudioButton:hover:not(:disabled) {
+        background-color: #1d4ed8;
+      }
+
+      #startAudioButton:disabled {
+        background-color: #4b5563;
+        cursor: not-allowed;
+      }
+
+      #stopAudioButton {
+        background-color: #dc2626;
+        color: #fff;
+      }
+
+      #stopAudioButton:hover:not(:disabled) {
+        background-color: #b91c1c;
+      }
+
+      #stopAudioButton:disabled {
+        background-color: #4b5563;
+        cursor: not-allowed;
+      }
+
+      #messages {
+        height: 70vh;
+        overflow-y: auto;
+        border: 1px solid var(--border);
+        padding: 14px;
+        background-color: var(--card);
+        border-radius: 12px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      }
+      
+      .turn {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px;
+        margin: 12px 0;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      }
+
+      .turn-header {
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 8px;
+      }
+
+      .turn-content {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      @media (min-width: 720px) {
+        .turn-content {
+          grid-template-columns: 1fr 1fr; /* transcripts | analysis */
+        }
+      }
+
+      .transcripts {
+        background: #1f2937;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 10px;
+      }
+
+      .analysis-panel {
+        background: #1f2937;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 0;
+      }
+
+      .user-message {
+        margin: 10px 0;
+        padding: 8px;
+        background-color: #1e3a5f;
+        border-radius: 5px;
+        border-left: 4px solid #3b82f6;
+      }
+      
+      .agent-message {
+        margin: 10px 0;
+        padding: 8px;
+        background-color: #312e81;
+        border-radius: 5px;
+        border-left: 4px solid #8b5cf6;
+      }
+      
+      .input-transcript-message {
+        margin: 10px 0;
+        padding: 8px;
+        background-color: #064e3b;
+        border-radius: 5px;
+        border-left: 4px solid #10b981;
+        font-style: italic;
+        opacity: 0.9;
+      }
+      
+      .output-transcript-message {
+        margin: 10px 0;
+        padding: 8px;
+        background-color: #78350f;
+        border-radius: 5px;
+        border-left: 4px solid #f59e0b;
+        font-style: italic;
+        opacity: 0.9;
+      }
+      
+      .message-label {
+        font-weight: bold;
+        color: #e5e7eb;
+        margin-right: 8px;
+      }
+      
+      .message-text {
+        color: #d1d5db;
+      }
+      
+      .detailed-analysis {
+        margin: 15px 0;
+        padding: 0;
+        background-color: var(--card);
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        overflow: hidden;
+      }
+      
+      .analysis-header {
+        background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+        color: #fff;
+        padding: 12px 15px;
+        font-weight: bold;
+        font-size: 16px;
+      }
+      
+      .analysis-content {
+        padding: 15px;
+        color: #e5e7eb;
+        line-height: 1.7;
+        font-size: 14px;
+        word-wrap: break-word;
+      }
+      
+      /* Markdown formatting in analysis */
+      .analysis-content h2 {
+        color: #f3f4f6;
+        margin-top: 20px;
+        margin-bottom: 12px;
+        font-size: 1.4em;
+      }
+      
+      .analysis-content h3 {
+        color: #d1d5db;
+        margin-top: 16px;
+        margin-bottom: 8px;
+        font-size: 1.1em;
+      }
+      
+      .analysis-content ul {
+        margin: 12px 0;
+        padding-left: 24px;
+      }
+      
+      .analysis-content li {
+        margin: 6px 0;
+        color: #d1d5db;
+      }
+      
+      .analysis-content strong {
+        color: #f9fafb;
+        font-weight: 600;
+      }
+      
+      .analysis-content p {
+        color: #e5e7eb;
+      }
+      
+      /* Chart container */
+      .chart-container {
+        background-color: #1f2937;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 16px 0;
+        border: 1px solid var(--border);
+      }
+      
+      .chart-container canvas {
+        max-height: 300px;
+      }
+      
+      /* Loading indicator */
+      .loading-indicator {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        background: var(--accent-weak);
+        border: 1px solid #3b82f6;
+        border-radius: 8px;
+        color: #93c5fd;
+        font-weight: 600;
+        margin: 10px 0;
+        animation: pulse 1.5s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.6; }
+      }
+
+      .loading-spinner {
+        width: 16px;
+        height: 16px;
+        border: 2px solid #3b82f6;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+
+      /* Status indicator at top */
+      .status-bar {
+        display: block;
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        margin: 8px 0;
+        text-align: center;
+        background: #1f2937;
+        border: 1px solid var(--border);
+        color: var(--muted);
+      }
+
+      .status-bar:empty {
+        display: none;
+      }
+
+      .status-bar.recording {
+        background: #064e3b;
+        border: 1px solid var(--success);
+        color: #6ee7b7;
+      }
+
+      .status-bar.processing {
+        background: var(--accent-weak);
+        border: 1px solid #3b82f6;
+        color: #93c5fd;
+      }
+      
+      .status-bar.ready {
+        background: #1f2937;
+        border: 1px solid var(--border);
+        color: var(--muted);
+      }
+      
+      h1 { display: none; }
+    </style>
+  </head>
+
+  <body>
+    <div class="topbar">
+      <div class="brand">ADK Live Demo</div>
+      <div class="brand-sub">Voice + Trend Analysis</div>
+    </div>
+    <div class="controls">
+      <button type="button" id="startAudioButton">Start Mic</button>
+      <button type="button" id="stopAudioButton" disabled>Stop Mic</button>
+    </div>
+    <div id="statusBar" class="status-bar ready">Click "Start Mic" to begin</div>
+    <div id="messages"></div>
+  </body>
+
+</html>

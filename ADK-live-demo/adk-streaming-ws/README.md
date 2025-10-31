@@ -14,6 +14,7 @@ This enhanced ADK streaming application now supports displaying transcript text 
 
 1. **Install dependencies:**
    ```bash
+   cd app
    pip install -r requirements.txt
    ```
 
@@ -27,7 +28,7 @@ This enhanced ADK streaming application now supports displaying transcript text 
 
 3. **Run the application:**
    ```bash
-   python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+   python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000
    ```
 
 4. **Open in browser:**

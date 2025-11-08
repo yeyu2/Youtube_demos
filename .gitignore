@@ -1,3 +1,172 @@
+# macOS
 .DS_Store
-*.pdf
+.AppleDouble
+.LSOverride
+._*
+
+# Documents
+
 *.pages
+
+# Local files
+*.local
+.local
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+.npm
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+package-lock.json.backup
+.eslintcache
+.node_repl_history
+*.tsbuildinfo
+.npm-cache
+dist/
+dist-ssr/
+build/
+.next/
+out/
+.nuxt/
+.cache/
+.vuepress/dist
+.serverless/
+.fusebox/
+.dynamodb/
+.tern-port
+.vscode-test
+.yarn-integrity
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.hypothesis/
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+*.egg
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pytype/
+.pyre/
+.ruff_cache/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.envrc
+*.env
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+*.sublime-project
+.vscode-server/
+.history/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+.tmp/
+temp/
+
+# OS files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Build outputs
+*.out
+*.build
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Archives
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# Android
+*.apk
+*.ap_
+*.dex
+.gradle/
+local.properties
+.idea/
+*.iml
+*.ipr
+*.iws
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+*.jks
+*.keystore
+output.json
+
+# React Native
+.expo/
+.expo-shared/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3

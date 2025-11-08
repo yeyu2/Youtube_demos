@@ -1,0 +1,5 @@
+pinecone==7.3.0
+langchain==1.0.3
+tqdm==4.67.1
+pypdf==6.1.3
+

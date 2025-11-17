@@ -20,6 +20,7 @@ import os
 import json
 import time
 import tempfile
+import hashlib
 from pathlib import Path
 from typing import Dict, Any
 from google import genai
@@ -47,6 +48,49 @@ def save_config(config: Dict[str, Any]):
     config_path = Path(__file__).parent.parent / 'file_store_config.json'
     with open(config_path, 'w') as f:
         json.dump(config, f, indent=2)
+
+
+def generate_filename_from_content(file_data: bytes, mime_type: str) -> str:
+    """
+    Generate a unique filename based on file content hash.
+    
+    This ensures that:
+    - Same file content = same hash = same filename (duplicate detection works)
+    - Different files = different hashes = different filenames (all tracked)
+    
+    Args:
+        file_data: The binary file content
+        mime_type: The MIME type (e.g., "application/pdf")
+    
+    Returns:
+        A filename like "doc_a1b2c3d4e5f6.pdf" where the hash is based on content
+    """
+    # Generate hash from file content
+    content_hash = hashlib.md5(file_data).hexdigest()[:12]  # Use first 12 chars of MD5
+    
+    # Get extension from MIME type
+    ext_map = {
+        'application/pdf': 'pdf',
+        'application/msword': 'doc',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'docx',
+        'text/plain': 'txt',
+        'text/markdown': 'md',
+        'image/png': 'png',
+        'image/jpeg': 'jpg',
+        'image/jpg': 'jpg',
+    }
+    
+    # Extract extension from MIME type
+    if '/' in mime_type:
+        mime_ext = mime_type.split('/')[-1]
+        if mime_ext in ['pdf', 'png', 'jpg', 'jpeg', 'txt', 'md']:
+            ext = mime_ext
+        else:
+            ext = ext_map.get(mime_type, mime_ext)
+    else:
+        ext = ext_map.get(mime_type, 'bin')
+    
+    return f"doc_{content_hash}.{ext}"
 
 
 def create_file_search_store() -> str:
@@ -105,15 +149,6 @@ async def index_uploaded_file(filename: str, tool_context: ToolContext) -> Dict[
             config['created_at'] = time.strftime('%Y-%m-%d %H:%M:%S')
             save_config(config)
         
-        # Check if already indexed
-        if filename in config.get('uploaded_files', []):
-            return {
-                "status": "already_indexed",
-                "message": f"File '{filename}' is already indexed",
-                "filename": filename,
-                "store_name": store_name
-            }
-        
         # Try to load the artifact from storage first
         print(f"[FileUpload] Loading artifact: {filename}")
         artifact_part = await tool_context.load_artifact(filename)
@@ -132,7 +167,7 @@ async def index_uploaded_file(filename: str, tool_context: ToolContext) -> Dict[
             if hasattr(tool_context, '_invocation_context'):
                 ctx = tool_context._invocation_context
                 if ctx and ctx.session and ctx.session.events:
-                    # Check recent events for inline_data matching the filename
+                    # Check recent events for inline_data
                     for event in reversed(ctx.session.events[-5:]):
                         if event.content and event.content.parts:
                             for part in event.content.parts:
@@ -153,12 +188,25 @@ async def index_uploaded_file(filename: str, tool_context: ToolContext) -> Dict[
                 "filename": filename
             }
         
+        # Generate actual filename based on content hash (overrides provided filename)
+        actual_filename = generate_filename_from_content(file_data, mime_type)
+        print(f"[FileUpload] Generated filename from content: {actual_filename} (original: {filename})")
+        
+        # Check if already indexed using the actual filename
+        if actual_filename in config.get('uploaded_files', []):
+            return {
+                "status": "already_indexed",
+                "message": f"File '{actual_filename}' is already indexed (same content detected)",
+                "filename": actual_filename,
+                "store_name": store_name
+            }
+        
         print(f"[FileUpload] File size: {len(file_data)} bytes, MIME: {mime_type}")
         
-        # Save to temporary file for upload
+        # Save to temporary file for upload (use actual_filename)
         temp_dir = Path(tempfile.gettempdir()) / "rag_uploads"
         temp_dir.mkdir(exist_ok=True)
-        temp_file = temp_dir / filename
+        temp_file = temp_dir / actual_filename
         
         with open(temp_file, 'wb') as f:
             f.write(file_data)
@@ -185,29 +233,29 @@ async def index_uploaded_file(filename: str, tool_context: ToolContext) -> Dict[
             return {
                 "status": "error",
                 "message": f"Upload timed out after {timeout}s",
-                "filename": filename
+                "filename": actual_filename
             }
         
-        # Update config
-        config['uploaded_files'].append(filename)
+        # Update config with actual filename
+        config['uploaded_files'].append(actual_filename)
         save_config(config)
         
         # Store in session state
-        tool_context.state['last_indexed_file'] = filename
+        tool_context.state['last_indexed_file'] = actual_filename
         tool_context.state['indexed_files'] = config['uploaded_files']
         
-        print(f"[FileUpload] Successfully indexed: {filename}")
+        print(f"[FileUpload] Successfully indexed: {actual_filename}")
         
         return {
             "status": "success",
-            "message": f"Successfully indexed '{filename}' into the search store",
-            "filename": filename,
+            "message": f"Successfully indexed '{actual_filename}' into the search store",
+            "filename": actual_filename,
             "store_name": store_name,
             "total_indexed": len(config['uploaded_files'])
         }
         
     except Exception as e:
-        error_msg = f"Failed to index '{filename}': {str(e)}"
+        error_msg = f"Failed to index file: {str(e)}"
         print(f"[FileUpload] Error: {error_msg}")
         
         return {
@@ -252,12 +300,13 @@ async def list_uploaded_files(tool_context: ToolContext) -> Dict[str, Any]:
                     if event.content and event.content.parts:
                         for idx, part in enumerate(event.content.parts):
                             if part.inline_data:
+                                file_data = part.inline_data.data
                                 mime_type = part.inline_data.mime_type
-                                ext = mime_type.split('/')[-1]
-                                filename = f"uploaded_document.{ext}"
+                                # Generate unique filename based on content hash
+                                filename = generate_filename_from_content(file_data, mime_type)
                                 if filename not in inline_uploads:
                                     inline_uploads.append(filename)
-                                    print(f"[FileUpload] Found inline upload: {filename} ({mime_type})")
+                                    print(f"[FileUpload] Found inline upload: {filename} ({mime_type}, {len(file_data)} bytes)")
         
         # Combine both sources
         all_files = list(set(uploaded_files + inline_uploads))

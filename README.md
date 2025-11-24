@@ -1,4 +1,5 @@
 # Youtube_demos
+* adk-gemini3/ - https://youtu.be/3zGGC_uYjoE - How to Build Realtime Proactive Agents for Monitoring with ADK, Gemini 3 Pro and Live API
 * adk-rag/ - https://youtu.be/h4tuLuzSjbA - How to Build Realtime Voice RAG Agents with ADK and File Search
 * Workflow-builder/ - https://youtu.be/yAj4CwsWUBk - How to Create a No-Code Visual Workflow Builder for AI Agents
 * ADK-live-demo/ - https://youtu.be/bYPpKDEynIE - Use ADK to Build a Multi-Agent System with Live Voice and Rich Content Output

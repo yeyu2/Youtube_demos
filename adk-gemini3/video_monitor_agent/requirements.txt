@@ -1,0 +1,2 @@
+google-adk>=0.5.0
+google-genai

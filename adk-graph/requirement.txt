@@ -1,0 +1,4 @@
+graphiti-core == 0.24.1
+graphiti-core[falkordb] == 0.24.1
+google-adk == 1.19.0
+falkordb == 1.2.0

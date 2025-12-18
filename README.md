@@ -1,4 +1,5 @@
 # Youtube_demos
+* context-aware/ - https://youtu.be/zK6vWFmbkfA - How to Architect Context-Aware Multi-agents Using Google ADK with Practice
 * adk-graph/ - https://youtu.be/5YRfNhn3luI - Building a Real-time Graph-RAG Agent for Super-Fast Knowledge Search and Updates
 * adk-gemini3/ - https://youtu.be/3zGGC_uYjoE - How to Build Realtime Proactive Agents for Monitoring with ADK, Gemini 3 Pro and Live API
 * adk-rag/ - https://youtu.be/h4tuLuzSjbA - How to Build Realtime Voice RAG Agents with ADK and File Search

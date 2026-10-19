@@ -1,4 +1,5 @@
 # Youtube_demos
+* agent-context-isolation/ - https://youtu.be/J16AHEKO66Q - Stop Letting Your AI Coding Agent Review Its Own Code
 * engineering-skill/ - https://youtu.be/KFkf1w_hrfI - How to Build Software with AI Coding Agent Without Losing Control
 * auto-rag-optimizer/ - https://youtu.be/QzHlzg8ab-g - I Applied Karpathy's AutoResearch to My RAG Pipeline — It Doubled Its Score Overnight
 * dolphin-v2-test/ - https://youtu.be/Li7WsJzSNko - Dolphin v2: Free Alternative to Document Understanding APIs of Commercial Models

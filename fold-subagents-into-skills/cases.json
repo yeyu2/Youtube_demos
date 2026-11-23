@@ -1,0 +1,48 @@
+[
+  {
+    "case_id": "T1_COUPLED_REFUND",
+    "prompt": "Refund the duplicate digital subscription charge on my cart and preserve my loyalty promo tier.",
+    "expect_skill": null,
+    "expect_delegate": null,
+    "required_rules": [],
+    "baseline_passed": false
+  },
+  {
+    "case_id": "T2_SHIPPING_SLA_TRAP",
+    "prompt": "My order has a carrier delivery exception date. Check the shipping SLA window and issue a shipping refund if eligible.",
+    "expect_skill": "shipping-sla",
+    "expect_delegate": null,
+    "required_rules": [
+      "check_carrier_sla",
+      "carrier_sla_hours"
+    ],
+    "baseline_passed": true
+  },
+  {
+    "case_id": "T3_NOISY_LOG_TRIAGE",
+    "prompt": "Scan 48 files of noisy webhook failure logs and summarize the timeout error codes.",
+    "expect_skill": null,
+    "expect_delegate": "fast",
+    "required_rules": [],
+    "baseline_passed": true
+  },
+  {
+    "case_id": "T4_BOUNDARY_AUDIT",
+    "prompt": "Run an isolated security review and boundary audit on the updated rate-limiter patch.",
+    "expect_skill": null,
+    "expect_delegate": "deep",
+    "required_rules": [],
+    "baseline_passed": true
+  },
+  {
+    "case_id": "T5_WAREHOUSE_EXCHANGE",
+    "prompt": "Exchange this delayed item before the regional warehouse cutoff and verify the carrier SLA window.",
+    "expect_skill": "shipping-sla",
+    "expect_delegate": null,
+    "required_rules": [
+      "check_carrier_sla",
+      "local_warehouse_hour < 16"
+    ],
+    "baseline_passed": false
+  }
+]
